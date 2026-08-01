@@ -3,6 +3,10 @@
 import { useState } from "react";
 import { api } from "@/lib/api";
 import { useRouter } from "next/navigation";
+import BackButton from "@/components/BackButton";
+import Sidebar from "@/components/Sidebar";
+import Topbar from "@/components/Topbar";
+import PageHeader from "@/components/PageHeader";
 
 export default function CreateOrganization() {
   const router = useRouter();
@@ -25,6 +29,7 @@ export default function CreateOrganization() {
   });
 
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({
@@ -34,14 +39,14 @@ export default function CreateOrganization() {
   };
 
   const createOrganization = async () => {
+    setError("");
     try {
       setLoading(true);
       await api.post("/organizations", form);
       alert("Organization Created Successfully");
       router.push("/organizations");
     } catch (error: any) {
-      console.log(error.response?.data);
-      alert(JSON.stringify(error.response?.data));
+      setError(error.response?.data?.message || "Failed to create organization");
     } finally {
       setLoading(false);
     }
@@ -66,33 +71,45 @@ export default function CreateOrganization() {
   ];
 
   return (
-    <div className="p-8 max-w-3xl">
-      <h1 className="text-2xl font-bold text-foreground mb-8">Create Organization</h1>
+    <div className="flex min-h-screen bg-background">
+      <Sidebar />
+      <div className="flex-1 flex flex-col">
+        <Topbar />
+        <main className="p-4 lg:p-8">
+          <PageHeader title="Create Organization" showBack={true} />
 
-      <div className="bg-card border border-border rounded-xl shadow-sm p-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {fields.map((field) => (
-            <div key={field.name} className="flex flex-col gap-2">
-              <label className="text-sm font-medium text-foreground">{field.label}</label>
-              <input
-                name={field.name}
-                value={(form as any)[field.name]}
-                onChange={handleChange}
-                placeholder={field.label}
-                type={field.type || "text"}
-                className="border border-border rounded-lg px-4 py-2.5 w-full outline-none focus:ring-2 focus:ring-primary/20 transition-all"
-              />
+          {error && (
+            <div className="mb-6 p-4 bg-red-50 text-red-600 rounded-lg border border-red-100">
+              {error}
             </div>
-          ))}
-        </div>
+          )}
 
-        <button
-          onClick={createOrganization}
-          disabled={loading}
-          className="mt-8 w-full bg-primary text-primary-foreground font-medium rounded-lg py-3 hover:bg-primary/90 transition-colors disabled:opacity-50"
-        >
-          {loading ? "Creating..." : "Create Organization"}
-        </button>
+          <div className="bg-card border border-border rounded-xl shadow-sm p-6 lg:p-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {fields.map((field) => (
+                <div key={field.name} className="flex flex-col gap-2">
+                  <label className="text-sm font-medium text-foreground">{field.label}</label>
+                  <input
+                    name={field.name}
+                    value={(form as any)[field.name]}
+                    onChange={handleChange}
+                    placeholder={field.label}
+                    type={field.type || "text"}
+                    className="border border-border rounded-lg px-4 py-3 w-full outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                  />
+                </div>
+              ))}
+            </div>
+
+            <button
+              onClick={createOrganization}
+              disabled={loading}
+              className="mt-8 w-full bg-primary text-primary-foreground font-medium rounded-lg h-[44px] hover:bg-primary/90 transition-colors disabled:opacity-50"
+            >
+              {loading ? "Creating..." : "Create Organization"}
+            </button>
+          </div>
+        </main>
       </div>
     </div>
   );

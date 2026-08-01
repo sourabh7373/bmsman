@@ -1,73 +1,67 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { api } from "@/lib/api";
+import { useParams } from "next/navigation";
+import Sidebar from "@/components/Sidebar";
+import Topbar from "@/components/Topbar";
+import PageHeader from "@/components/PageHeader";
 
-import {useEffect,useState} from "react";
-import {api} from "@/lib/api";
-import {useParams} from "next/navigation";
+export default function OrganizationDetails() {
+  const params = useParams();
+  const [org, setOrg] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
+  useEffect(() => {
+    const loadOrg = async () => {
+      try {
+        setLoading(true);
+        const res = await api.get(`/organizations/${params.id}`);
+        setOrg(res.data);
+      } catch (err) {
+        setError("Failed to load organization details");
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadOrg();
+  }, [params.id]);
 
-export default function OrganizationDetails(){
+  return (
+    <div className="flex min-h-screen bg-background">
+      <Sidebar />
+      <div className="flex-1 flex flex-col">
+        <Topbar />
+        <main className="p-4 lg:p-8">
+          <PageHeader title="Organization Details" showBack={true} />
 
-
-const params=useParams();
-
-const [org,setOrg]=useState<any>();
-
-
-
-useEffect(()=>{
-
-
-api.get(`/organizations/${params.id}`)
-.then(res=>setOrg(res.data));
-
-
-},[]);
-
-
-
-if(!org)
-return <div className="p-6">
-Loading...
-</div>
-
-
-
-return(
-
-<div className="p-6">
-
-
-<h1 className="text-2xl font-bold mb-5">
-Organization Details
-</h1>
-
-
-
-<div className="bg-white shadow rounded-xl p-6">
-
-
-<p>
-<b>Name:</b> {org.name}
-</p>
-
-
-<p>
-<b>Email:</b> {org.email}
-</p>
-
-
-<p>
-<b>ID:</b> {org.id}
-</p>
-
-
-</div>
-
-
-
-</div>
-
-)
-
+          {loading ? (
+            <div className="p-8 text-center text-muted">Loading...</div>
+          ) : error ? (
+            <div className="p-8 text-red-600">{error}</div>
+          ) : !org ? (
+            <div className="p-8">Organization not found</div>
+          ) : (
+            <div className="bg-card border border-border rounded-xl shadow-sm p-6 lg:p-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <p className="text-sm text-muted">Company Name</p>
+                  <p className="font-medium text-foreground">{org.companyName || org.name}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted">Email</p>
+                  <p className="font-medium text-foreground">{org.email}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted">ID</p>
+                  <p className="font-medium text-foreground">{org.id}</p>
+                </div>
+              </div>
+            </div>
+          )}
+        </main>
+      </div>
+    </div>
+  );
 }

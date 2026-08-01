@@ -1,6 +1,7 @@
 import Sidebar from "@/components/Sidebar";
 import Topbar from "@/components/Topbar";
 import StatsCard from "@/components/StatsCard";
+import PageHeader from "@/components/PageHeader";
 
 export default function Dashboard() {
   return (
@@ -8,7 +9,9 @@ export default function Dashboard() {
       <Sidebar />
       <div className="flex-1 flex flex-col">
         <Topbar />
-        <main className="p-8">
+        <main className="p-4 lg:p-8">
+          <PageHeader title="Dashboard" showBack={false} />
+          
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <StatsCard title="Active Jobs" value="308" />
             <StatsCard title="Manufacturing" value="11" />
