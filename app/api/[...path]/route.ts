@@ -28,7 +28,11 @@ async function handleProxy(request: NextRequest, params: { path: string[] }) {
   const url = `${BACKEND_URL}/${path}${searchParams ? `?${searchParams}` : ''}`;
 
   const headers = new Headers(request.headers);
-  headers.delete('host'); // Important for proxying
+  headers.delete('host'); 
+  // Ensure content-type is preserved
+  if (!headers.has('content-type')) {
+    headers.set('content-type', 'application/json');
+  }
 
   const options: RequestInit = {
     method: request.method,
@@ -37,12 +41,18 @@ async function handleProxy(request: NextRequest, params: { path: string[] }) {
   };
 
   if (request.method !== 'GET' && request.method !== 'HEAD') {
-    options.body = await request.blob();
+    // Use arrayBuffer() instead of blob() for better compatibility with JSON bodies
+    options.body = await request.arrayBuffer();
   }
 
+  console.log(`Proxying ${request.method} to ${url}`);
+  
   const response = await fetch(url, options);
+  
+  const responseBody = await response.arrayBuffer();
+  console.log(`Backend responded with ${response.status}`);
 
-  return new NextResponse(response.body, {
+  return new NextResponse(responseBody, {
     status: response.status,
     statusText: response.statusText,
     headers: response.headers,
