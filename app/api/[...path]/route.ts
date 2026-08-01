@@ -2,28 +2,28 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const BACKEND_URL = 'http://203.17.177.14/api/v1';
 
-export async function GET(request: NextRequest, { params }: { params: { path: string[] } }) {
-  return handleProxy(request, params.path);
+export async function GET(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
+  return handleProxy(request, await params);
 }
 
-export async function POST(request: NextRequest, { params }: { params: { path: string[] } }) {
-  return handleProxy(request, params.path);
+export async function POST(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
+  return handleProxy(request, await params);
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { path: string[] } }) {
-  return handleProxy(request, params.path);
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
+  return handleProxy(request, await params);
 }
 
-export async function PATCH(request: NextRequest, { params }: { params: { path: string[] } }) {
-  return handleProxy(request, params.path);
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
+  return handleProxy(request, await params);
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { path: string[] } }) {
-  return handleProxy(request, params.path);
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
+  return handleProxy(request, await params);
 }
 
-async function handleProxy(request: NextRequest, pathSegments: string[]) {
-  const path = pathSegments.join('/');
+async function handleProxy(request: NextRequest, params: { path: string[] }) {
+  const path = params.path.join('/');
   const searchParams = request.nextUrl.searchParams.toString();
   const url = `${BACKEND_URL}/${path}${searchParams ? `?${searchParams}` : ''}`;
 
