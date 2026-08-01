@@ -40,9 +40,9 @@ export default function Organizations() {
   return (
     <div className="flex min-h-screen bg-background">
       <Sidebar />
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col w-full overflow-hidden">
         <Topbar />
-        <main className="p-4 lg:p-8">
+        <main className="p-4 lg:p-8 w-full">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
             <PageHeader title="Organizations" showBack={true} />
             <Link href="/organizations/create">
@@ -63,7 +63,7 @@ export default function Organizations() {
               <div className="p-8 text-center text-muted">Loading...</div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-sm">
+                <table className="w-full text-sm min-w-[600px]">
                   <thead>
                     <tr className="border-b border-border text-muted bg-gray-50/50">
                       <th className="p-4 text-left font-medium">Company Name</th>

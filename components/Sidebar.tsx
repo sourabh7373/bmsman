@@ -18,7 +18,12 @@ export default function Sidebar() {
     <>
       {/* Mobile Hamburger */}
       <div className="lg:hidden flex items-center p-4 border-b border-border bg-card">
-        <button onClick={() => setIsOpen(!isOpen)} className="p-2 text-foreground">
+        <button 
+          onClick={() => setIsOpen(!isOpen)} 
+          className="p-2 text-foreground rounded-lg hover:bg-gray-100 focus:ring-2 focus:ring-primary focus:outline-none"
+          aria-label="Toggle navigation menu"
+          aria-expanded={isOpen}
+        >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
         <span className="ml-4 font-bold text-lg">BMSMan</span>
@@ -31,14 +36,14 @@ export default function Sidebar() {
         }`}
       >
         <h1 className="hidden lg:block text-xl font-bold text-foreground mb-10 px-3">BMSMan</h1>
-        <nav>
+        <nav aria-label="Main navigation">
           <ul className="space-y-1">
             {navItems.map((item) => (
               <li key={item.name}>
                 <Link
                   href={item.href}
                   onClick={() => setIsOpen(false)}
-                  className="flex items-center p-3 text-foreground rounded-lg hover:bg-gray-100 transition-colors h-[44px]"
+                  className="flex items-center p-3 text-foreground rounded-lg hover:bg-gray-100 transition-colors h-[44px] focus:ring-2 focus:ring-primary focus:outline-none"
                 >
                   {item.name}
                 </Link>
@@ -53,6 +58,7 @@ export default function Sidebar() {
         <div
           className="fixed inset-0 bg-black/20 z-40 lg:hidden"
           onClick={() => setIsOpen(false)}
+          aria-hidden="true"
         />
       )}
     </>
