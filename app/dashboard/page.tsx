@@ -5,24 +5,24 @@ import PageHeader from "@/components/PageHeader";
 
 export default function Dashboard() {
   return (
-    <div className="flex min-h-screen bg-background">
+    <div className="flex min-h-screen bg-background w-full overflow-x-hidden">
       <Sidebar />
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col w-full min-w-0">
         <Topbar />
-        <main className="p-4 lg:p-8">
+        <main className="p-4 lg:p-8 w-full">
           <PageHeader title="Dashboard" showBack={false} />
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <StatsCard title="Active Jobs" value="308" />
             <StatsCard title="Manufacturing" value="11" />
             <StatsCard title="Delivered" value="26" />
             <StatsCard title="Overdue" value="81" />
           </div>
 
-          <div className="mt-8 bg-card border border-border rounded-xl shadow-sm p-6">
+          <div className="mt-8 bg-card border border-border rounded-xl shadow-sm p-4 sm:p-6">
             <h2 className="text-lg font-semibold text-foreground mb-6">Recent Jobs</h2>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+            <div className="overflow-x-auto -mx-4 sm:mx-0 px-4 sm:px-0">
+              <table className="w-full text-sm min-w-[500px]">
                 <thead>
                   <tr className="border-b border-border text-muted">
                     <th className="text-left pb-4 font-medium">Job</th>
