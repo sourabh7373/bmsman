@@ -5,130 +5,68 @@ import { useRouter } from "next/navigation";
 import { api } from "@/lib/api";
 
 export default function LoginPage() {
-
   const router = useRouter();
 
-  const [username,setUsername] = useState("superadmin");
-  const [password,setPassword] = useState("superadmin123");
-  const [loading,setLoading] = useState(false);
+  const [username, setUsername] = useState("superadmin");
+  const [password, setPassword] = useState("superadmin123");
+  const [loading, setLoading] = useState(false);
 
-
-  const login = async()=>{
-
-    try{
-
+  const login = async () => {
+    try {
       setLoading(true);
+      const response = await api.post("/auth/authenticate", {
+        username,
+        password,
+      });
 
-      const response = await api.post(
-        "/auth/authenticate",
-        {
-          username,
-          password
-        }
-      );
-
-
-      localStorage.setItem(
-        "token",
-        response.data.token
-      );
-
-
-      localStorage.setItem(
-        "refreshToken",
-        response.data.refreshToken
-      );
-
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("refreshToken", response.data.refreshToken);
 
       router.push("/dashboard");
-
-
-    }catch(error){
-
+    } catch (error) {
       alert("Invalid Username or Password");
-
-    }
-    finally{
+    } finally {
       setLoading(false);
     }
-
-  }
-
+  };
 
   return (
+    <div className="min-h-screen flex items-center justify-center bg-background">
+      <div className="bg-card border border-border shadow-sm rounded-xl p-8 w-[400px]">
+        <h1 className="text-2xl font-bold text-center text-foreground mb-2">BMSMan</h1>
+        <p className="text-muted text-center mb-8">Login to your account</p>
 
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="space-y-4">
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-foreground">Username</label>
+            <input
+              className="border border-border rounded-lg px-4 py-2.5 w-full outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Enter username"
+            />
+          </div>
 
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-foreground">Password</label>
+            <input
+              className="border border-border rounded-lg px-4 py-2.5 w-full outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter password"
+            />
+          </div>
 
-      <div className="bg-white shadow-xl rounded-xl p-8 w-[380px]">
-
-
-        <h1 className="text-3xl font-bold text-center mb-2">
-          BMSMan
-        </h1>
-
-
-        <p className="text-gray-500 text-center mb-6">
-          Login to Dashboard
-        </p>
-
-
-
-        <input
-
-          className="border p-3 w-full rounded mb-4"
-
-          value={username}
-
-          onChange={
-            e=>setUsername(e.target.value)
-          }
-
-          placeholder="Username"
-
-        />
-
-
-
-        <input
-
-          className="border p-3 w-full rounded mb-5"
-
-          type="password"
-
-          value={password}
-
-          onChange={
-            e=>setPassword(e.target.value)
-          }
-
-          placeholder="Password"
-
-        />
-
-
-
-        <button
-
-          onClick={login}
-
-          className="bg-orange-500 hover:bg-orange-600 text-white w-full p-3 rounded"
-
-        >
-
-          {
-            loading 
-            ? "Logging..."
-            : "Login"
-          }
-
-        </button>
-
-
+          <button
+            onClick={login}
+            disabled={loading}
+            className="w-full bg-primary text-primary-foreground font-medium rounded-lg py-3 hover:bg-primary/90 transition-colors disabled:opacity-50 mt-4"
+          >
+            {loading ? "Logging in..." : "Login"}
+          </button>
+        </div>
       </div>
-
-
     </div>
-
-  )
+  );
 }

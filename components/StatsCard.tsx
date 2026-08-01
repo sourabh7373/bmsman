@@ -1,37 +1,13 @@
-interface Props{
-
-title:string;
-
-value:string;
-
+interface Props {
+  title: string;
+  value: string;
 }
 
-
-export default function StatsCard(
-{
-title,
-value
-}:Props
-){
-
-
-return(
-
-<div className="bg-white rounded-xl shadow p-5">
-
-
-<p className="text-gray-500">
-{title}
-</p>
-
-
-<h2 className="text-3xl font-bold mt-2">
-{value}
-</h2>
-
-
-</div>
-
-)
-
+export default function StatsCard({ title, value }: Props) {
+  return (
+    <div className="bg-card border border-border rounded-xl p-6 shadow-sm transition-all hover:shadow-md">
+      <p className="text-sm font-medium text-muted">{title}</p>
+      <h2 className="text-3xl font-bold text-foreground mt-2">{value}</h2>
+    </div>
+  );
 }

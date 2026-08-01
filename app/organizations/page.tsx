@@ -1,231 +1,79 @@
 "use client";
 
-import {useEffect,useState} from "react";
-import {api} from "@/lib/api";
+import { useEffect, useState } from "react";
+import { api } from "@/lib/api";
 import Link from "next/link";
 
-
-export default function Organizations(){
-
-const [organizations,setOrganizations]=useState<any[]>([]);
-
-
-useEffect(()=>{
-
-loadOrganizations();
-
-},[]);
-
-
-
-const loadOrganizations=async()=>{
-
-try{
-
-const res = await api.get("/organizations");
-
-console.log("Organizations Response:", res.data);
-
-
-// Handle different API response formats
-
-if(Array.isArray(res.data)){
-
-setOrganizations(res.data);
-
-}
-else if(Array.isArray(res.data.content)){
-
-setOrganizations(res.data.content);
-
-}
-else if(Array.isArray(res.data.data)){
-
-setOrganizations(res.data.data);
-
-}
-else{
-
-setOrganizations([]);
-
-}
-
-
-}
-catch(error:any){
-
-console.log(
-"Organization Error:",
-error.response?.data || error
-);
-
-}
-
-};
-
-
-
-return(
-
-<div className="p-6">
-
-
-<div className="flex justify-between mb-6">
-
-
-<h1 className="text-2xl font-bold">
-Organizations
-</h1>
-
-
-
-<Link href="/organizations/create">
-
-<button className="
-bg-orange-500
-text-white
-px-4
-py-2
-rounded-lg
-">
-
-+ Create Organization
-
-</button>
-
-</Link>
-
-
-</div>
-
-
-
-
-<div className="bg-white rounded-xl shadow">
-
-
-<table className="w-full">
-
-
-<thead>
-
-<tr className="border-b">
-
-
-<th className="p-4 text-left">
-Company Name
-</th>
-
-
-<th className="p-4 text-left">
-Email
-</th>
-
-
-<th className="p-4">
-Action
-</th>
-
-
-</tr>
-
-</thead>
-
-
-
-
-<tbody>
-
-
-{
-organizations?.map((org)=>(
-
-
-<tr
-key={org.id}
-className="border-b"
->
-
-
-<td className="p-4">
-{org.companyName}
-</td>
-
-
-
-<td className="p-4">
-{org.email}
-</td>
-
-
-
-
-<td className="p-4">
-
-
-<Link href={`/organizations/${org.id}`}>
-
-<button className="
-bg-blue-500
-text-white
-px-3
-py-1
-rounded
-">
-
-View
-
-</button>
-
-</Link>
-
-
-</td>
-
-
-
-</tr>
-
-
-))
-
-}
-
-
-
-{
-organizations.length === 0 && (
-
-<tr>
-
-<td
-colSpan={3}
-className="p-5 text-center text-gray-500"
->
-
-No Organizations Found
-
-</td>
-
-</tr>
-
-)
-
-}
-
-
-
-</tbody>
-
-
-</table>
-
-
-</div>
-
-
-</div>
-
-)
-
+export default function Organizations() {
+  const [organizations, setOrganizations] = useState<any[]>([]);
+
+  useEffect(() => {
+    loadOrganizations();
+  }, []);
+
+  const loadOrganizations = async () => {
+    try {
+      const res = await api.get("/organizations");
+      if (Array.isArray(res.data)) {
+        setOrganizations(res.data);
+      } else if (Array.isArray(res.data.content)) {
+        setOrganizations(res.data.content);
+      } else if (Array.isArray(res.data.data)) {
+        setOrganizations(res.data.data);
+      } else {
+        setOrganizations([]);
+      }
+    } catch (error: any) {
+      console.log("Organization Error:", error.response?.data || error);
+    }
+  };
+
+  return (
+    <div className="p-8">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-2xl font-bold text-foreground">Organizations</h1>
+        <Link href="/organizations/create">
+          <button className="bg-primary text-primary-foreground px-4 py-2 rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors">
+            + Create Organization
+          </button>
+        </Link>
+      </div>
+
+      <div className="bg-card border border-border rounded-xl shadow-sm overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-border text-muted bg-gray-50/50">
+                <th className="p-4 text-left font-medium">Company Name</th>
+                <th className="p-4 text-left font-medium">Email</th>
+                <th className="p-4 text-right font-medium">Action</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border">
+              {organizations?.map((org) => (
+                <tr key={org.id} className="hover:bg-gray-50 transition-colors">
+                  <td className="p-4 font-medium text-foreground">{org.companyName}</td>
+                  <td className="p-4 text-muted">{org.email}</td>
+                  <td className="p-4 text-right">
+                    <Link href={`/organizations/${org.id}`}>
+                      <button className="text-primary hover:text-primary/80 font-medium">
+                        View
+                      </button>
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+              {organizations.length === 0 && (
+                <tr>
+                  <td colSpan={3} className="p-8 text-center text-muted">
+                    No Organizations Found
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
 }
