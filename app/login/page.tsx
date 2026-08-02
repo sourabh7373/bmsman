@@ -8,7 +8,7 @@ import { Eye, EyeOff } from "lucide-react";
 export default function LoginPage() {
   const router = useRouter();
 
-  const [username, setUsername] = useState("superadmin");
+  const [email, setEmail] = useState("superadmin@frp.local");
   const [password, setPassword] = useState("superadmin123");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -17,10 +17,17 @@ export default function LoginPage() {
   const login = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
     try {
       setLoading(true);
       const response = await api.post("/auth/authenticate", {
-        username,
+        email,
         password,
       });
 
@@ -28,8 +35,9 @@ export default function LoginPage() {
       localStorage.setItem("refreshToken", response.data.refreshToken);
 
       router.push("/dashboard");
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Invalid Username or Password");
+    } catch (err: unknown) {
+      const error = err as { response?: { data?: { message?: string } } };
+      setError(error.response?.data?.message || "Invalid Email or Password");
     } finally {
       setLoading(false);
     }
@@ -49,14 +57,15 @@ export default function LoginPage() {
 
         <form onSubmit={login} className="space-y-4">
           <div className="flex flex-col gap-2">
-            <label className="text-sm font-medium text-foreground">Username</label>
+            <label className="text-sm font-medium text-foreground">Email</label>
             <input
+              type="email"
               className="border border-border rounded-lg px-4 py-3 w-full outline-none focus:ring-2 focus:ring-primary/20 transition-all"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Enter username"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter email"
               required
-              aria-label="Username"
+              aria-label="Email"
             />
           </div>
 
