@@ -1,14 +1,13 @@
 import Sidebar from "@/components/Sidebar";
 import Topbar from "@/components/Topbar";
-import StatsCard from "@/components/StatsCard";
 import PageHeader from "@/components/PageHeader";
 import { Briefcase, Factory, CheckCircle2, AlertCircle } from "lucide-react";
 
 export default function Dashboard() {
   return (
-    <div className="flex min-h-screen bg-gray-50 w-full overflow-x-hidden">
+    <div className="min-h-screen bg-gray-50 w-full">
       <Sidebar />
-      <div className="flex-1 flex flex-col w-full min-w-0 lg:ml-64">
+      <div className="lg:pl-64 flex flex-col w-full">
         <Topbar />
         <main className="p-6 lg:p-10 w-full max-w-7xl mx-auto">
           <PageHeader title="Dashboard" showBack={false} />
