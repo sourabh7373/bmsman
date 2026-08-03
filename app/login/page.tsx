@@ -49,9 +49,9 @@ export default function LoginPage() {
   return (
     <AuthLayout>
       <LoginCard>
-        <div className="mb-10">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome back</h1>
-          <p className="text-gray-500">Enter your credentials to access your dashboard</p>
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h1>
+          <p className="text-gray-500">Sign in to continue to your account</p>
         </div>
 
         {error && (
@@ -60,14 +60,14 @@ export default function LoginPage() {
           </div>
         )}
 
-        <form onSubmit={login} className="space-y-6">
+        <form onSubmit={login} className="space-y-5">
           <InputField
             label="Email Address"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="name@company.com"
-            icon={<Mail size={18} />}
+            icon={<Mail size={20} />}
             required
           />
 
@@ -78,22 +78,26 @@ export default function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              icon={<Lock size={18} />}
+              icon={<Lock size={20} />}
               required
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-[38px] text-gray-400 hover:text-gray-600 transition-colors"
+              className="absolute right-4 top-[42px] text-gray-400 hover:text-gray-600 transition-colors"
             >
-              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
+          </div>
+
+          <div className="text-center">
+            <a href="#" className="text-sm text-blue-600 font-medium hover:underline">Forgot Password?</a>
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-gray-900 text-white font-semibold rounded-xl h-[48px] hover:bg-gray-800 transition-all disabled:opacity-50 shadow-lg shadow-gray-200"
+            className="w-full bg-gradient-to-r from-[#2563EB] to-[#4F46E5] text-white font-semibold rounded-[12px] h-[52px] hover:opacity-90 transition-all disabled:opacity-50 shadow-lg shadow-blue-200"
           >
             {loading ? "Authenticating..." : "Sign In"}
           </button>
