@@ -31,11 +31,19 @@ export default function Sidebar() {
 
       {/* Sidebar */}
       <aside
-        className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-card border-r border-border p-6 transform transition-transform duration-200 ease-in-out ${
+        className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-card border-r border-border p-6 transform transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}
       >
-        <h1 className="hidden lg:block text-xl font-bold text-foreground mb-10 px-3">BMSMan</h1>
+        <div className="flex items-center justify-between mb-10 px-3">
+          <h1 className="text-xl font-bold text-foreground">BMSMan</h1>
+          <button
+            onClick={() => setIsOpen(false)}
+            className="lg:hidden p-2 text-muted hover:text-foreground"
+          >
+            <X size={20} />
+          </button>
+        </div>
         <nav aria-label="Main navigation">
           <ul className="space-y-1">
             {navItems.map((item) => (
@@ -43,7 +51,7 @@ export default function Sidebar() {
                 <Link
                   href={item.href}
                   onClick={() => setIsOpen(false)}
-                  className="flex items-center p-3 text-foreground rounded-lg hover:bg-gray-100 transition-colors h-[44px] focus:ring-2 focus:ring-primary focus:outline-none"
+                  className="flex items-center p-3 text-foreground rounded-md hover:bg-blue-50 hover:text-primary transition-all h-[44px] focus:ring-2 focus:ring-primary focus:outline-none"
                 >
                   {item.name}
                 </Link>

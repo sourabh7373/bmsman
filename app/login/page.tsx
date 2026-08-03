@@ -44,40 +44,40 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
-      <div className="bg-card border border-border shadow-sm rounded-xl p-8 w-full max-w-[400px]">
+    <div className="min-h-screen flex items-center justify-center bg-background p-4 sm:p-6">
+      <div className="bg-card border border-border shadow-lg rounded-2xl p-6 sm:p-8 w-full max-w-[400px]">
         <h1 className="text-2xl font-bold text-center text-foreground mb-2">BMSMan</h1>
         <p className="text-muted text-center mb-8">Login to your account</p>
 
         {error && (
-          <div className="mb-4 p-3 bg-red-50 text-red-600 text-sm rounded-lg border border-red-100">
+          <div className="mb-6 p-3 bg-red-50 text-red-600 text-sm rounded-md border border-red-100">
             {error}
           </div>
         )}
 
-        <form onSubmit={login} className="space-y-4">
-          <div className="flex flex-col gap-2">
+        <form onSubmit={login} className="space-y-5">
+          <div className="flex flex-col gap-1.5">
             <label className="text-sm font-medium text-foreground">Email</label>
             <input
               type="email"
-              className="border border-border rounded-lg px-4 py-3 w-full outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+              className="border border-border rounded-md px-4 py-2.5 w-full outline-none focus:ring-2 focus:ring-primary/20 transition-all"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter email"
+              placeholder="name@company.com"
               required
               aria-label="Email"
             />
           </div>
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-1.5">
             <label className="text-sm font-medium text-foreground">Password</label>
             <div className="relative">
               <input
-                className="border border-border rounded-lg px-4 py-3 w-full outline-none focus:ring-2 focus:ring-primary/20 transition-all pr-12"
+                className="border border-border rounded-md px-4 py-2.5 w-full outline-none focus:ring-2 focus:ring-primary/20 transition-all pr-12"
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter password"
+                placeholder="••••••••"
                 required
                 aria-label="Password"
               />
@@ -86,7 +86,7 @@ export default function LoginPage() {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-foreground"
               >
-                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
           </div>
@@ -94,7 +94,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-primary text-primary-foreground font-medium rounded-lg h-[44px] hover:bg-primary/90 transition-colors disabled:opacity-50 mt-4"
+            className="w-full bg-primary text-primary-foreground font-medium rounded-md h-[44px] hover:bg-primary/90 transition-all disabled:opacity-50 mt-2"
           >
             {loading ? "Logging in..." : "Login"}
           </button>

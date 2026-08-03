@@ -87,7 +87,7 @@ export default function CreateOrganization() {
           <div className="bg-card border border-border rounded-xl shadow-sm p-6 lg:p-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {fields.map((field) => (
-                <div key={field.name} className="flex flex-col gap-2">
+                <div key={field.name} className="flex flex-col gap-1.5">
                   <label className="text-sm font-medium text-foreground">{field.label}</label>
                   <input
                     name={field.name}
@@ -95,19 +95,21 @@ export default function CreateOrganization() {
                     onChange={handleChange}
                     placeholder={field.label}
                     type={field.type || "text"}
-                    className="border border-border rounded-lg px-4 py-3 w-full outline-none focus:ring-2 focus:ring-primary/20 transition-all"
+                    className="border border-border rounded-md px-4 py-2.5 w-full outline-none focus:ring-2 focus:ring-primary/20 transition-all"
                   />
                 </div>
               ))}
             </div>
 
-            <button
-              onClick={createOrganization}
-              disabled={loading}
-              className="mt-8 w-full bg-primary text-primary-foreground font-medium rounded-lg h-[44px] hover:bg-primary/90 transition-colors disabled:opacity-50"
-            >
-              {loading ? "Creating..." : "Create Organization"}
-            </button>
+            <div className="mt-8 flex justify-end">
+              <button
+                onClick={createOrganization}
+                disabled={loading}
+                className="bg-primary text-primary-foreground px-6 py-2.5 rounded-md font-medium hover:bg-primary/90 transition-all w-full md:w-auto disabled:opacity-50"
+              >
+                {loading ? "Creating..." : "Create Organization"}
+              </button>
+            </div>
           </div>
         </main>
       </div>

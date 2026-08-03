@@ -58,12 +58,12 @@ export default function Organizations() {
             </div>
           )}
 
-          <div className="bg-card border border-border rounded-xl shadow-sm overflow-hidden">
+          <div className="bg-card border border-border rounded-md shadow-sm overflow-hidden">
             {loading ? (
               <div className="p-8 text-center text-muted">Loading...</div>
             ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm min-w-[600px]">
+              <div className="table-container">
+                <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-border text-muted bg-gray-50/50">
                       <th className="p-4 text-left font-medium">Company Name</th>
@@ -78,9 +78,9 @@ export default function Organizations() {
                         <td className="p-4 text-muted">{org.email}</td>
                         <td className="p-4 text-right">
                           <Link href={`/organizations/${org.id}`}>
-                            <button className="text-primary hover:text-primary/80 font-medium h-[44px] px-4">
+                            <span className="text-primary hover:text-primary/80 font-medium px-4 py-2 rounded-md hover:bg-blue-50 transition-all">
                               View
-                            </button>
+                            </span>
                           </Link>
                         </td>
                       </tr>
