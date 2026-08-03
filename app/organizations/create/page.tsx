@@ -7,6 +7,7 @@ import Sidebar from "@/components/Sidebar";
 import Topbar from "@/components/Topbar";
 import PageHeader from "@/components/PageHeader";
 import { InputField } from "@/components/InputField";
+import { handleApiError } from "@/lib/errorUtils";
 
 export default function CreateOrganization() {
   const router = useRouter();
@@ -30,29 +31,65 @@ export default function CreateOrganization() {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [errors, setErrors] = useState<Record<string, string[]>>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({
       ...form,
       [e.target.name]: e.target.value,
     });
+    if (errors[e.target.name]) {
+      setErrors({ ...errors, [e.target.name]: [] });
+    }
+  };
+
+  const validate = () => {
+    const newErrors: Record<string, string[]> = {};
+    if (!form.companyName) newErrors.companyName = ["Organization name is required"];
+    if (!form.email) {
+      newErrors.email = ["Email is required"];
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
+      newErrors.email = ["Enter a valid email address"];
+    }
+    if (!form.phone) newErrors.phone = ["Phone number is required"];
+    if (!form.address) newErrors.address = ["Address is required"];
+    if (!form.adminPassword) {
+      newErrors.adminPassword = ["Admin password is required"];
+    } else if (form.adminPassword.length < 8) {
+      newErrors.adminPassword = ["Password must be at least 8 characters"];
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const createOrganization = async () => {
+    // Remove client-side validation if we want to rely on backend,
+    // but keeping it for now as per existing code.
+    if (!validate()) return;
+    
     setError("");
+    setErrors({});
     try {
       setLoading(true);
       await api.post("/organizations", form);
       alert("Organization Created Successfully");
       router.push("/organizations");
     } catch (error: any) {
-      setError(error.response?.data?.message || "Failed to create organization");
+      const apiError = handleApiError(error);
+      setError(apiError.message);
+      setErrors(apiError.validationErrors);
+      // If allErrors exists, we can use it for the summary
+      if (apiError.allErrors && apiError.allErrors.length > 0) {
+        // Optionally, we could set a specific state for allErrors if needed
+        // but for now, let's just ensure the UI uses the validationErrors correctly
+      }
     } finally {
       setLoading(false);
     }
   };
 
-  const fields = [
+  const fields: { name: string; label: string; type?: string }[] = [
     { name: "companyName", label: "Company Name" },
     { name: "companyCode", label: "Company Code" },
     { name: "address", label: "Address" },
@@ -64,9 +101,9 @@ export default function CreateOrganization() {
     { name: "email", label: "Email" },
     { name: "gstNo", label: "GST No" },
     { name: "adminUsername", label: "Admin Username" },
-    { name: "adminPassword", label: "Admin Password", type: "password" },
     { name: "adminEmail", label: "Admin Email" },
     { name: "adminDisplayName", label: "Admin Display Name" },
+    { name: "adminPassword", label: "Admin Password", type: "password" },
     { name: "adminMobileNumber", label: "Admin Mobile Number" },
   ];
 
@@ -80,7 +117,14 @@ export default function CreateOrganization() {
 
           {error && (
             <div className="mb-8 p-4 bg-red-50 text-red-600 rounded-xl border border-red-100">
-              {error}
+              <p className="font-semibold">{error}</p>
+              {Object.keys(errors).length > 0 && (
+                <ul className="list-disc list-inside mt-2">
+                  {Object.values(errors).flat().map((err, i) => (
+                    <li key={i}>{err}</li>
+                  ))}
+                </ul>
+              )}
             </div>
           )}
 
@@ -91,10 +135,11 @@ export default function CreateOrganization() {
                   key={field.name}
                   label={field.label}
                   name={field.name}
-                  value={(form as any)[field.name]}
+                  value={(form as any)[field.name] ?? ""}
                   onChange={handleChange}
                   placeholder={field.label}
                   type={field.type || "text"}
+                  error={errors[field.name]?.join(", ")}
                 />
               ))}
             </div>

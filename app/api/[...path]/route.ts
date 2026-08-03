@@ -51,6 +51,14 @@ async function handleProxy(request: NextRequest, params: { path: string[] }) {
   
   const responseBody = await response.arrayBuffer();
   console.log(`Backend responded with ${response.status}`);
+  
+  // Log the response body for debugging
+  try {
+    const text = new TextDecoder().decode(responseBody);
+    console.log(`Backend response body: ${text}`);
+  } catch (e) {
+    console.error("Failed to decode response body", e);
+  }
 
   return new NextResponse(responseBody, {
     status: response.status,

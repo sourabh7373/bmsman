@@ -6,7 +6,7 @@ import Link from "next/link";
 import Sidebar from "@/components/Sidebar";
 import Topbar from "@/components/Topbar";
 import PageHeader from "@/components/PageHeader";
-import { Plus, Eye } from "lucide-react";
+import { Plus, Eye, Pencil } from "lucide-react";
 
 export default function Organizations() {
   const [organizations, setOrganizations] = useState<any[]>([]);
@@ -70,7 +70,7 @@ export default function Organizations() {
                     <tr className="border-b border-gray-100 text-gray-500">
                       <th className="p-6 text-left font-medium">Company Name</th>
                       <th className="p-6 text-left font-medium">Email</th>
-                      <th className="p-6 text-right font-medium">Action</th>
+                      <th className="p-6 text-right font-medium">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-50">
@@ -78,11 +78,17 @@ export default function Organizations() {
                       <tr key={org.id} className="hover:bg-gray-50/50 transition-colors">
                         <td className="p-6 font-semibold text-gray-900">{org.companyName}</td>
                         <td className="p-6 text-gray-600">{org.email}</td>
-                        <td className="p-6 text-right">
+                        <td className="p-6 text-right flex items-center justify-end gap-2">
                           <Link href={`/organizations/${org.id}`}>
                             <span className="inline-flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700 px-4 py-2 rounded-lg hover:bg-blue-50 transition-all">
                               <Eye size={16} />
                               View
+                            </span>
+                          </Link>
+                          <Link href={`/organizations/edit/${org.id}`}>
+                            <span className="inline-flex items-center gap-2 text-gray-600 font-semibold hover:text-gray-900 px-4 py-2 rounded-lg hover:bg-gray-100 transition-all">
+                              <Pencil size={16} />
+                              Edit
                             </span>
                           </Link>
                         </td>

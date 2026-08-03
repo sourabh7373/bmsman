@@ -3,9 +3,10 @@ import React from 'react';
 interface InputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
   icon?: React.ReactNode;
+  error?: string;
 }
 
-export const InputField: React.FC<InputFieldProps> = ({ label, icon, ...props }) => {
+export const InputField: React.FC<InputFieldProps> = ({ label, icon, error, ...props }) => {
   return (
     <div className="flex flex-col gap-1.5 w-full">
       <label className="text-sm font-medium text-gray-700">{label}</label>
@@ -17,9 +18,10 @@ export const InputField: React.FC<InputFieldProps> = ({ label, icon, ...props })
         )}
         <input
           {...props}
-          className={`w-full h-[52px] border border-gray-200 rounded-[12px] px-4 ${icon ? 'pl-12' : ''} outline-none focus:ring-2 focus:ring-blue-500 transition-all`}
+          className={`w-full h-[52px] border ${error ? 'border-red-500' : 'border-gray-200'} rounded-[12px] px-4 ${icon ? 'pl-12' : ''} outline-none focus:ring-2 ${error ? 'focus:ring-red-500' : 'focus:ring-blue-500'} transition-all`}
         />
       </div>
+      {error && <p className="text-xs text-red-500 font-medium">{error}</p>}
     </div>
   );
 };
