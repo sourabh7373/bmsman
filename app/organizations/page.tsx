@@ -39,9 +39,9 @@ export default function Organizations() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-50 w-full overflow-x-hidden">
+    <div className="min-h-screen bg-gray-50 w-full">
       <Sidebar />
-      <div className="flex-1 flex flex-col w-full min-w-0">
+      <div className="lg:pl-64 flex flex-col w-full">
         <Topbar />
         <main className="p-6 lg:p-10 w-full max-w-7xl mx-auto">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
@@ -65,7 +65,7 @@ export default function Organizations() {
               <div className="p-12 text-center text-gray-500">Loading organizations...</div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-sm">
+                <table className="w-full text-sm min-w-[600px]">
                   <thead>
                     <tr className="border-b border-gray-100 text-gray-500">
                       <th className="p-6 text-left font-medium">Company Name</th>
