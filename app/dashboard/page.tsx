@@ -8,7 +8,7 @@ export default function Dashboard() {
   return (
     <div className="flex min-h-screen bg-gray-50 w-full overflow-x-hidden">
       <Sidebar />
-      <div className="flex-1 flex flex-col w-full min-w-0">
+      <div className="flex-1 flex flex-col w-full min-w-0 lg:ml-64">
         <Topbar />
         <main className="p-6 lg:p-10 w-full max-w-7xl mx-auto">
           <PageHeader title="Dashboard" showBack={false} />
@@ -57,8 +57,8 @@ export default function Dashboard() {
               <h2 className="text-xl font-bold text-gray-900">Recent Jobs</h2>
               <button className="text-sm font-semibold text-blue-600 hover:text-blue-700 bg-blue-50 px-4 py-2 rounded-lg transition-colors">View All</button>
             </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
+            <div className="overflow-x-auto -mx-6 sm:-mx-8 px-6 sm:px-8">
+              <table className="w-full text-sm min-w-[600px]">
                 <thead>
                   <tr className="border-b border-gray-100 text-gray-500">
                     <th className="text-left pb-4 font-medium">Job ID</th>
