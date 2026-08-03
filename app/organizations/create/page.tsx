@@ -72,7 +72,12 @@ export default function CreateOrganization() {
     setErrors({});
     try {
       setLoading(true);
-      await api.post("/organizations", form);
+      const payload = {
+        ...form,
+        mobileNumber: form.mobileNumber || null,
+        adminMobileNumber: form.adminMobileNumber || null
+      };
+      await api.post("/organizations", payload);
       alert("Organization Created Successfully");
       router.push("/organizations");
     } catch (error: any) {

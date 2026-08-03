@@ -105,7 +105,12 @@ export default function EditOrganization() {
     setErrors({});
     try {
       setSaving(true);
-      const payload = { id, ...form };
+      const payload = {
+        id,
+        ...form,
+        mobileNumber: form.mobileNumber || null,
+        adminMobileNumber: form.adminMobileNumber || null
+      };
       await api.put(`/organizations`, payload);
       alert("Organization Updated Successfully");
       router.push("/organizations");
