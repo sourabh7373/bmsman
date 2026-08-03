@@ -29,33 +29,33 @@ export default function OrganizationDetails() {
   }, [params.id]);
 
   return (
-    <div className="flex min-h-screen bg-background">
+    <div className="flex min-h-screen bg-gray-50 w-full overflow-x-hidden">
       <Sidebar />
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col w-full min-w-0">
         <Topbar />
-        <main className="p-4 lg:p-8">
+        <main className="p-6 lg:p-10 w-full max-w-5xl mx-auto">
           <PageHeader title="Organization Details" showBack={true} />
 
           {loading ? (
-            <div className="p-8 text-center text-muted">Loading...</div>
+            <div className="p-12 text-center text-gray-500">Loading details...</div>
           ) : error ? (
-            <div className="p-8 text-red-600">{error}</div>
+            <div className="p-8 bg-red-50 text-red-600 rounded-xl border border-red-100">{error}</div>
           ) : !org ? (
-            <div className="p-8">Organization not found</div>
+            <div className="p-8 text-center text-gray-500">Organization not found</div>
           ) : (
-            <div className="bg-card border border-border rounded-xl shadow-sm p-6 lg:p-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <p className="text-sm text-muted">Company Name</p>
-                  <p className="font-medium text-foreground">{org.companyName || org.name}</p>
+            <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-6 lg:p-10">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                <div className="space-y-1">
+                  <p className="text-sm font-medium text-gray-500">Company Name</p>
+                  <p className="text-lg font-semibold text-gray-900">{org.companyName || org.name}</p>
                 </div>
-                <div>
-                  <p className="text-sm text-muted">Email</p>
-                  <p className="font-medium text-foreground">{org.email}</p>
+                <div className="space-y-1">
+                  <p className="text-sm font-medium text-gray-500">Email</p>
+                  <p className="text-lg font-semibold text-gray-900">{org.email}</p>
                 </div>
-                <div>
-                  <p className="text-sm text-muted">ID</p>
-                  <p className="font-medium text-foreground">{org.id}</p>
+                <div className="space-y-1">
+                  <p className="text-sm font-medium text-gray-500">ID</p>
+                  <p className="text-lg font-semibold text-gray-900">{org.id}</p>
                 </div>
               </div>
             </div>
