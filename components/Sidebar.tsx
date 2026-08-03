@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, X, LayoutDashboard, Building2, Briefcase, FileText } from "lucide-react";
+import { Menu, X, LayoutDashboard, Building2 } from "lucide-react";
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,7 +15,7 @@ export default function Sidebar() {
   return (
     <>
       {/* Mobile Hamburger */}
-      <div className="lg:hidden flex items-center p-4 border-b border-gray-200 bg-white">
+      <div className="lg:hidden flex items-center p-4 border-b border-gray-200 bg-white sticky top-0 z-30">
         <button 
           onClick={() => setIsOpen(!isOpen)} 
           className="p-2 text-gray-600 rounded-lg hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none"
@@ -29,8 +29,8 @@ export default function Sidebar() {
 
       {/* Sidebar */}
       <aside
-        className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-gray-900 text-white p-6 transform transition-transform duration-300 ease-in-out ${
-          isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-gray-900 text-white p-6 transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         <div className="flex items-center justify-between mb-10 px-3">
