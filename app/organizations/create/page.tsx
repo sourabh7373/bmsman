@@ -71,9 +71,9 @@ export default function CreateOrganization() {
   ];
 
   return (
-    <div className="flex min-h-screen bg-gray-50 w-full overflow-x-hidden">
+    <div className="min-h-screen bg-gray-50 w-full">
       <Sidebar />
-      <div className="flex-1 flex flex-col w-full min-w-0">
+      <div className="lg:pl-64 flex flex-col w-full">
         <Topbar />
         <main className="p-6 lg:p-10 w-full max-w-5xl mx-auto">
           <PageHeader title="Create Organization" showBack={true} />
