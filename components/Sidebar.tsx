@@ -14,33 +14,23 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Mobile Hamburger */}
-      <div className="lg:hidden flex items-center p-4 border-b border-gray-200 bg-white sticky top-0 z-30">
+      {/* Mobile Header (Visible only on mobile) */}
+      <div className="lg:hidden flex items-center justify-between p-4 border-b border-gray-200 bg-white sticky top-0 z-30 h-[60px]">
         <button 
-          onClick={() => setIsOpen(!isOpen)} 
+          onClick={() => setIsOpen(true)} 
           className="p-2 text-gray-600 rounded-lg hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 focus:outline-none"
           aria-label="Toggle navigation menu"
-          aria-expanded={isOpen}
         >
-          {isOpen ? <X size={24} /> : <Menu size={24} />}
+          <Menu size={24} />
         </button>
-        <span className="ml-4 font-bold text-lg text-gray-900">BMSMan</span>
+        <span className="font-bold text-lg text-gray-900">BMSMan</span>
+        <div className="w-10" /> {/* Spacer for centering */}
       </div>
 
-      {/* Sidebar */}
-      <aside
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-gray-900 text-white p-6 transform transition-transform duration-300 ease-in-out lg:translate-x-0 ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
-        <div className="flex items-center justify-between mb-10 px-3">
+      {/* Desktop Sidebar (Visible only on desktop) */}
+      <aside className="hidden lg:flex flex-col w-64 bg-gray-900 text-white h-screen fixed left-0 top-0 p-6">
+        <div className="mb-10 px-3">
           <h1 className="text-xl font-bold text-white">BMSMan</h1>
-          <button
-            onClick={() => setIsOpen(false)}
-            className="lg:hidden p-2 text-gray-400 hover:text-white"
-          >
-            <X size={20} />
-          </button>
         </div>
         <nav aria-label="Main navigation">
           <ul className="space-y-2">
@@ -48,8 +38,7 @@ export default function Sidebar() {
               <li key={item.name}>
                 <Link
                   href={item.href}
-                  onClick={() => setIsOpen(false)}
-                  className="flex items-center gap-3 p-3 text-gray-300 rounded-xl hover:bg-blue-600 hover:text-white transition-all h-[48px] focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                  className="flex items-center gap-3 p-3 text-gray-300 rounded-xl hover:bg-blue-600 hover:text-white transition-all h-[48px]"
                 >
                   <item.icon size={20} />
                   {item.name}
@@ -60,13 +49,42 @@ export default function Sidebar() {
         </nav>
       </aside>
 
-      {/* Overlay */}
+      {/* Mobile Drawer (Visible only when open) */}
       {isOpen && (
-        <div
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
-          onClick={() => setIsOpen(false)}
-          aria-hidden="true"
-        />
+        <>
+          <div
+            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+            onClick={() => setIsOpen(false)}
+            aria-hidden="true"
+          />
+          <div className="fixed inset-y-0 left-0 z-50 w-[80%] max-w-[320px] bg-gray-900 text-white flex flex-col shadow-2xl">
+            <div className="flex items-center justify-between p-6 h-[60px]">
+              <h1 className="text-xl font-bold text-white">BMSMan</h1>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="p-2 text-gray-400 hover:text-white"
+              >
+                <X size={24} />
+              </button>
+            </div>
+            <nav className="flex-1 p-4" aria-label="Mobile navigation">
+              <ul className="space-y-2">
+                {navItems.map((item) => (
+                  <li key={item.name}>
+                    <Link
+                      href={item.href}
+                      onClick={() => setIsOpen(false)}
+                      className="flex items-center gap-3 p-4 text-gray-300 rounded-xl hover:bg-blue-600 hover:text-white transition-all h-[56px]"
+                    >
+                      <item.icon size={20} />
+                      {item.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+        </>
       )}
     </>
   );
