@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f8fafc;
+  --background: #f1f5f9;
   --foreground: #0f172a;
   --card: #ffffff;
   --card-foreground: #0f172a;
@@ -9,7 +9,7 @@
   --primary: #2563eb;
   --primary-foreground: #ffffff;
   --muted: #64748b;
-  --radius: 0.75rem;
+  --radius: 1rem;
 }
 
 @theme inline {
@@ -36,15 +36,6 @@ body {
   overflow-x: hidden;
   width: 100%;
   line-height: 1.5;
-}
-
-/* Responsive Table Wrapper */
-.table-container {
-  width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
 }
 
 /* Focus States for Accessibility */

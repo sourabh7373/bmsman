@@ -3,10 +3,10 @@
 import { useState } from "react";
 import { api } from "@/lib/api";
 import { useRouter } from "next/navigation";
-import BackButton from "@/components/BackButton";
 import Sidebar from "@/components/Sidebar";
 import Topbar from "@/components/Topbar";
 import PageHeader from "@/components/PageHeader";
+import { InputField } from "@/components/InputField";
 
 export default function CreateOrganization() {
   const router = useRouter();
@@ -71,41 +71,39 @@ export default function CreateOrganization() {
   ];
 
   return (
-    <div className="flex min-h-screen bg-background">
+    <div className="flex min-h-screen bg-gray-50 w-full overflow-x-hidden">
       <Sidebar />
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col w-full min-w-0">
         <Topbar />
-        <main className="p-4 lg:p-8">
+        <main className="p-6 lg:p-10 w-full max-w-5xl mx-auto">
           <PageHeader title="Create Organization" showBack={true} />
 
           {error && (
-            <div className="mb-6 p-4 bg-red-50 text-red-600 rounded-lg border border-red-100">
+            <div className="mb-8 p-4 bg-red-50 text-red-600 rounded-xl border border-red-100">
               {error}
             </div>
           )}
 
-          <div className="bg-card border border-border rounded-xl shadow-sm p-6 lg:p-8">
+          <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-6 lg:p-10">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {fields.map((field) => (
-                <div key={field.name} className="flex flex-col gap-1.5">
-                  <label className="text-sm font-medium text-foreground">{field.label}</label>
-                  <input
-                    name={field.name}
-                    value={(form as any)[field.name]}
-                    onChange={handleChange}
-                    placeholder={field.label}
-                    type={field.type || "text"}
-                    className="border border-border rounded-md px-4 py-2.5 w-full outline-none focus:ring-2 focus:ring-primary/20 transition-all"
-                  />
-                </div>
+                <InputField
+                  key={field.name}
+                  label={field.label}
+                  name={field.name}
+                  value={(form as any)[field.name]}
+                  onChange={handleChange}
+                  placeholder={field.label}
+                  type={field.type || "text"}
+                />
               ))}
             </div>
 
-            <div className="mt-8 flex justify-end">
+            <div className="mt-10 pt-8 border-t border-gray-100 flex justify-end">
               <button
                 onClick={createOrganization}
                 disabled={loading}
-                className="bg-primary text-primary-foreground px-6 py-2.5 rounded-md font-medium hover:bg-primary/90 transition-all w-full md:w-auto disabled:opacity-50"
+                className="bg-gray-900 text-white px-8 py-3 rounded-xl font-semibold hover:bg-gray-800 transition-all w-full md:w-auto disabled:opacity-50 shadow-lg shadow-gray-200"
               >
                 {loading ? "Creating..." : "Create Organization"}
               </button>

@@ -6,6 +6,7 @@ import Link from "next/link";
 import Sidebar from "@/components/Sidebar";
 import Topbar from "@/components/Topbar";
 import PageHeader from "@/components/PageHeader";
+import { Plus, Eye } from "lucide-react";
 
 export default function Organizations() {
   const [organizations, setOrganizations] = useState<any[]>([]);
@@ -38,47 +39,49 @@ export default function Organizations() {
   };
 
   return (
-    <div className="flex min-h-screen bg-background">
+    <div className="flex min-h-screen bg-gray-50 w-full overflow-x-hidden">
       <Sidebar />
-      <div className="flex-1 flex flex-col w-full overflow-hidden">
+      <div className="flex-1 flex flex-col w-full min-w-0">
         <Topbar />
-        <main className="p-4 lg:p-8 w-full">
+        <main className="p-6 lg:p-10 w-full max-w-7xl mx-auto">
           <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-8">
             <PageHeader title="Organizations" showBack={true} />
             <Link href="/organizations/create">
-              <button className="bg-primary text-primary-foreground px-6 py-3 rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors h-[44px] w-full sm:w-auto">
-                + Create Organization
+              <button className="flex items-center justify-center gap-2 bg-gray-900 text-white px-6 py-2.5 rounded-xl text-sm font-semibold hover:bg-gray-800 transition-all h-[48px] w-full sm:w-auto shadow-lg shadow-gray-200">
+                <Plus size={18} />
+                Create Organization
               </button>
             </Link>
           </div>
 
           {error && (
-            <div className="mb-6 p-4 bg-red-50 text-red-600 rounded-lg border border-red-100">
+            <div className="mb-6 p-4 bg-red-50 text-red-600 rounded-xl border border-red-100">
               {error}
             </div>
           )}
 
-          <div className="bg-card border border-border rounded-md shadow-sm overflow-hidden">
+          <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
             {loading ? (
-              <div className="p-8 text-center text-muted">Loading...</div>
+              <div className="p-12 text-center text-gray-500">Loading organizations...</div>
             ) : (
-              <div className="table-container">
+              <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b border-border text-muted bg-gray-50/50">
-                      <th className="p-4 text-left font-medium">Company Name</th>
-                      <th className="p-4 text-left font-medium">Email</th>
-                      <th className="p-4 text-right font-medium">Action</th>
+                    <tr className="border-b border-gray-100 text-gray-500">
+                      <th className="p-6 text-left font-medium">Company Name</th>
+                      <th className="p-6 text-left font-medium">Email</th>
+                      <th className="p-6 text-right font-medium">Action</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-border">
+                  <tbody className="divide-y divide-gray-50">
                     {organizations.map((org) => (
-                      <tr key={org.id} className="hover:bg-gray-50 transition-colors">
-                        <td className="p-4 font-medium text-foreground">{org.companyName}</td>
-                        <td className="p-4 text-muted">{org.email}</td>
-                        <td className="p-4 text-right">
+                      <tr key={org.id} className="hover:bg-gray-50/50 transition-colors">
+                        <td className="p-6 font-semibold text-gray-900">{org.companyName}</td>
+                        <td className="p-6 text-gray-600">{org.email}</td>
+                        <td className="p-6 text-right">
                           <Link href={`/organizations/${org.id}`}>
-                            <span className="text-primary hover:text-primary/80 font-medium px-4 py-2 rounded-md hover:bg-blue-50 transition-all">
+                            <span className="inline-flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700 px-4 py-2 rounded-lg hover:bg-blue-50 transition-all">
+                              <Eye size={16} />
                               View
                             </span>
                           </Link>
@@ -87,7 +90,7 @@ export default function Organizations() {
                     ))}
                     {organizations.length === 0 && (
                       <tr>
-                        <td colSpan={3} className="p-8 text-center text-muted">
+                        <td colSpan={3} className="p-12 text-center text-gray-500">
                           No Organizations Found
                         </td>
                       </tr>
