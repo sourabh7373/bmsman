@@ -7,7 +7,7 @@ interface ContainerProps {
 
 export const PageContainer: React.FC<ContainerProps> = ({ children, className = "" }) => {
   return (
-    <main className={`p-4 md:p-6 lg:p-8 w-full mx-auto space-y-6 ${className}`}>
+    <main className={`p-4 md:p-6 lg:p-8 w-full mx-auto space-y-6 ${className} overflow-x-hidden`}>
       {children}
     </main>
   );
