@@ -38,12 +38,19 @@ export default function CreatePrivilege() {
     }
     
     setError("");
+
+    // Declare variables outside try so they're accessible in catch
+    let privilegeCode = "";
+    let domain = "DEFAULT";
+    let fieldKey = "";
+    let accessMode = "READ";
+
     try {
       setLoading(true);
-      let privilegeCode = form.privilegeName.toUpperCase().replace(/[^A-Z0-9\s]/g, '').replace(/\s+/g, '_');
-      let domain = "DEFAULT";
-      let fieldKey = privilegeCode;
-      let accessMode = "READ";
+      privilegeCode = form.privilegeName.toUpperCase().replace(/[^A-Z0-9\s]/g, '').replace(/\s+/g, '_');
+      domain = "DEFAULT";
+      fieldKey = privilegeCode;
+      accessMode = "READ";
       
       if (form.privilegeType === "MENU") {
         if (!privilegeCode.startsWith("MENU_")) {
