@@ -6,6 +6,13 @@ export const organizationValidationSchema = {
     minLengthMessage: "Organization name is too short",
     trim: true,
   },
+  email: {
+    required: true,
+    requiredMessage: "Email is required",
+    pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+    patternMessage: "Please enter a valid email address",
+    trim: true,
+  },
   adminDisplayName: {
     required: true,
     requiredMessage: "Admin display name is required",
