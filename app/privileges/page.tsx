@@ -8,7 +8,7 @@ import Topbar from "@/components/Topbar";
 import PageHeader from "@/components/PageHeader";
 import { ThemeBackground } from "@/components/ThemeBackground";
 import { EmptyState } from "@/components/EmptyState";
-import { Plus, ShieldCheck, Pencil, Lock, Key, Shield } from "lucide-react";
+import { Plus, ShieldCheck, Eye, Pencil, Lock, Key, Shield } from "lucide-react";
 
 export default function Privileges() {
   const [privileges, setPrivileges] = useState<any[]>([]);
@@ -138,8 +138,14 @@ export default function Privileges() {
                             </td>
                             <td className="p-5 text-right">
                               <div className="flex items-center justify-end gap-2 opacity-80 group-hover:opacity-100 transition-opacity">
-                                <Link href={`/privileges/edit/${priv.id}`}>
+                                <Link href={`/privileges/${priv.id}/view`}>
                                   <span className="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-semibold px-4 py-2 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-950/50 transition-all text-xs">
+                                    <Eye size={16} />
+                                    View
+                                  </span>
+                                </Link>
+                                <Link href={`/privileges/edit/${priv.id}`}>
+                                  <span className="inline-flex items-center gap-2 text-slate-600 dark:text-slate-400 font-semibold px-4 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all text-xs">
                                     <Pencil size={16} />
                                     Edit
                                   </span>

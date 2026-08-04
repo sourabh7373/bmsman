@@ -71,6 +71,11 @@ export default function EditPrivilege() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    if (privilege?.systemManaged) {
+      setError("System-managed privileges cannot be modified.");
+      return;
+    }
+
     if (!validateAll()) return;
     
     setError("");
@@ -194,6 +199,11 @@ export default function EditPrivilege() {
                     <p className="text-xs text-slate-500 dark:text-slate-400">Update the name and type for this privilege</p>
                   </div>
                 </div>
+                {privilege?.systemManaged && (
+                  <div className="mb-6 p-4 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/50 rounded-2xl text-amber-800 dark:text-amber-300 text-sm font-medium">
+                    System-managed privileges cannot be modified. All fields are disabled.
+                  </div>
+                )}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <InputField
                     label="Privilege Name"
@@ -202,6 +212,7 @@ export default function EditPrivilege() {
                     onChange={handleChange}
                     placeholder="Enter privilege name"
                     error={errors.privilegeName}
+                    disabled={privilege?.systemManaged}
                   />
                   <div className="flex flex-col gap-2">
                     <label className="text-sm font-medium text-slate-700 dark:text-slate-300">Privilege Type</label>
@@ -209,7 +220,8 @@ export default function EditPrivilege() {
                       name="privilegeType"
                       value={form.privilegeType}
                       onChange={(e) => handleChange(e as any)}
-                      className="w-full p-3 border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-white dark:bg-slate-800 text-slate-900 dark:text-white transition-all"
+                      disabled={privilege?.systemManaged}
+                      className="w-full p-3 border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-white dark:bg-slate-800 text-slate-900 dark:text-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <option value="">Select Type</option>
                       <option value="MENU">MENU</option>
@@ -231,8 +243,8 @@ export default function EditPrivilege() {
                 <button
                   type="submit"
                   form="edit-privilege-form"
-                  disabled={saving}
-                  className="flex items-center gap-2 bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-700 text-white px-8 py-3 rounded-xl font-semibold hover:shadow-lg hover:shadow-indigo-500/25 transition-all disabled:opacity-50 active:scale-[0.99]"
+                  disabled={saving || privilege?.systemManaged}
+                  className="flex items-center gap-2 bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-700 text-white px-8 py-3 rounded-xl font-semibold hover:shadow-lg hover:shadow-indigo-500/25 transition-all disabled:opacity-50 active:scale-[0.99] disabled:cursor-not-allowed"
                 >
                   <Save size={18} />
                   {saving ? "Updating..." : "Update Privilege"}

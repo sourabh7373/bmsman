@@ -20,7 +20,7 @@ export default function CreatePrivilege() {
     privilegeType: "",
     domain: "",
     fieldName: "",
-    accessMode: "VIEW",
+    accessMode: "READ",
   }, {
     privilegeName: organizationValidationSchema.privilegeName,
     privilegeType: organizationValidationSchema.privilegeType,
@@ -70,17 +70,17 @@ export default function CreatePrivilege() {
           setLoading(false);
           return;
         }
-        if (accessMode !== "VIEW" && accessMode !== "EDIT") {
-          setError("Access mode for FIELD privileges must be VIEW or EDIT");
+        if (accessMode !== "READ" && accessMode !== "WRITE") {
+          setError("Access mode for FIELD privileges must be READ or WRITE");
           setLoading(false);
           return;
         }
         
-        privilegeCode = `FIELD_${domain}_${fieldKey}_${accessMode}`;
+        privilegeCode = `FIELD_${domain}_${fieldKey}_${accessMode}_${Math.floor(Math.random() * 900 + 100)}`;
         
         // Validate the generated FIELD privilege code matches the backend-required pattern
-        if (!/^FIELD_[A-Z0-9]+_[A-Z0-9]+_(VIEW|EDIT)$/.test(privilegeCode)) {
-          setError("Generated privilege code does not match required format: FIELD_{DOMAIN}_{FIELD}_{VIEW|EDIT}. Example: FIELD_USER_EMAIL_VIEW");
+        if (!/^FIELD_[A-Z0-9]+_[A-Z0-9]+_(READ|WRITE)_\d+$/.test(privilegeCode)) {
+          setError("Generated privilege code does not match required format: FIELD_{DOMAIN}_{FIELD}_{READ|WRITE}_{RANDOM}. Example: FIELD_USER_EMAIL_READ_123");
           setLoading(false);
           return;
         }
@@ -116,14 +116,17 @@ export default function CreatePrivilege() {
         },
       });
       const handledError = handleApiError(error);
-      // Display the full backend validation error details, not just the wrapper message
-      if (handledError.allErrors && handledError.allErrors.length > 0) {
+      const resData = error.response?.data;
+      
+      // Handle duplicate privilege code or unique constraint violations gracefully
+      if (error.response?.status === 409 || (resData && JSON.stringify(resData).toLowerCase().includes("already exist"))) {
+        setError(`Privilege code '${privilegeCode}' already exists. Please use a unique name or modify the field/domain.`);
+      } else if (handledError.allErrors && handledError.allErrors.length > 0) {
         setError(`Validation failed:\n${handledError.allErrors.join("\n")}`);
-      } else if (error.response?.data) {
-        // Fallback: show raw backend response for debugging
-        const rawMsg = typeof error.response.data === 'string'
-          ? error.response.data
-          : JSON.stringify(error.response.data, null, 2);
+      } else if (resData) {
+        const rawMsg = typeof resData === 'string'
+          ? resData
+          : (resData.message || resData.error || JSON.stringify(resData, null, 2));
         setError(`Backend error: ${rawMsg}`);
       } else {
         setError(handledError.message);
@@ -229,17 +232,17 @@ export default function CreatePrivilege() {
                       onChange={(e) => handleChange(e as any)}
                       className="w-full p-3 border border-slate-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none bg-white dark:bg-slate-800 text-slate-900 dark:text-white transition-all"
                     >
-                      <option value="VIEW">VIEW</option>
-                      <option value="EDIT">EDIT</option>
+                      <option value="READ">READ</option>
+                      <option value="WRITE">WRITE</option>
                     </select>
                     {errors.accessMode && <p className="text-sm text-rose-600 dark:text-rose-400">{errors.accessMode}</p>}
                   </div>
                   <div className="md:col-span-2 flex items-start gap-2 p-3 bg-indigo-50 dark:bg-indigo-950/40 rounded-xl border border-indigo-100 dark:border-indigo-900/50">
                     <Info size={18} className="text-indigo-500 mt-0.5 shrink-0" />
                     <p className="text-xs text-indigo-700 dark:text-indigo-300">
-                      Generated privilege code format: <code className="font-mono font-semibold">FIELD_{"{DOMAIN}"}_{"{FIELD}"}_{"{VIEW|EDIT}"}</code>
+                      Generated privilege code format: <code className="font-mono font-semibold">FIELD_{"{DOMAIN}"}_{"{FIELD}"}_{"{READ|WRITE}"}_{"{UNIQUE_SUFFIX}"}</code>
                       <br />
-                      Example: <code className="font-mono font-semibold">FIELD_USER_EMAIL_VIEW</code>
+                      Example: <code className="font-mono font-semibold">FIELD_USER_EMAIL_READ_123</code>
                     </p>
                   </div>
                 </>
