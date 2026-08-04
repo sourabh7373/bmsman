@@ -12,7 +12,7 @@ export default function Dashboard() {
       <Sidebar />
       <div className="lg:pl-64 flex flex-col w-full">
         <Topbar />
-        <main className="p-6 lg:p-10 w-full max-w-7xl mx-auto space-y-8">
+        <main className="p-4 lg:p-6 w-full space-y-6">
           <PageHeader title="Dashboard Overview" showBack={false} />
 
           {/* Hero Illustration Banner */}

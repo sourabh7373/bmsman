@@ -8,6 +8,7 @@ import Topbar from "@/components/Topbar";
 import { ThemeBackground } from "@/components/ThemeBackground";
 import { ShieldCheck, Key, ArrowLeft, Pencil, Lock, CheckCircle2, XCircle, Globe, Layers } from "lucide-react";
 import Link from "next/link";
+import { PageContainer } from "@/components/PageContainer";
 
 export default function PrivilegeDetails() {
   const params = useParams();
@@ -60,7 +61,7 @@ export default function PrivilegeDetails() {
       <Sidebar />
       <div className="lg:pl-64 flex flex-col w-full">
         <Topbar />
-        <main className="p-6 lg:p-10 w-full max-w-7xl mx-auto space-y-8">
+        <PageContainer>
           {/* Header Section */}
           <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-600 via-purple-600 to-blue-700 p-8 shadow-xl">
             <div className="absolute -right-12 -top-12 h-64 w-64 rounded-full bg-white/10 blur-2xl" />
@@ -106,8 +107,8 @@ export default function PrivilegeDetails() {
               <p className="text-slate-500 dark:text-slate-400 font-medium">Privilege not found</p>
             </div>
           ) : (
-            <div className="rounded-3xl bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none p-8 transition-all duration-300">
-              <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-100 dark:border-slate-800">
+            <div className="rounded-3xl bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none p-6 md:p-8 transition-all duration-300">
+              <div className="flex items-center justify-between mb-8 pb-6 border-b border-slate-100 dark:border-slate-800">
                 <div className="flex items-center gap-3">
                   <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 text-white shadow-md shadow-indigo-500/20">
                     <Key size={28} />
@@ -125,17 +126,17 @@ export default function PrivilegeDetails() {
                 )}
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                 {detailFields.map((field) => {
                   const Icon = field.icon;
                   return (
-                    <div key={field.label} className="flex items-start gap-3 p-4 rounded-2xl bg-slate-50/50 dark:bg-slate-800/30 border border-slate-100 dark:border-slate-800/50">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 shrink-0">
-                        <Icon size={18} />
+                    <div key={field.label} className="group flex items-start gap-4 p-5 rounded-2xl bg-slate-50/50 dark:bg-slate-800/30 border border-slate-100 dark:border-slate-800/50 hover:border-indigo-200 dark:hover:border-indigo-900/50 transition-all duration-200">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 shadow-sm shrink-0 group-hover:scale-105 transition-transform">
+                        <Icon size={22} />
                       </div>
                       <div className="min-w-0">
-                        <p className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">{field.label}</p>
-                        <p className="text-sm font-semibold text-slate-900 dark:text-white mt-0.5 break-words">{field.value}</p>
+                        <p className="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">{field.label}</p>
+                        <p className="text-sm font-bold text-slate-900 dark:text-white mt-1 break-words">{field.value}</p>
                       </div>
                     </div>
                   );
@@ -143,7 +144,7 @@ export default function PrivilegeDetails() {
               </div>
             </div>
           )}
-        </main>
+        </PageContainer>
       </div>
     </ThemeBackground>
   );

@@ -89,7 +89,7 @@ export default function CreateOrganization() {
       <Sidebar />
       <div className="lg:pl-64 flex flex-col w-full">
         <Topbar />
-        <main className="p-6 lg:p-10 w-full max-w-7xl mx-auto space-y-8">
+        <main className="p-4 lg:p-6 w-full space-y-6">
           {/* Header Section */}
           <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 p-8 shadow-xl">
             <div className="absolute -right-12 -top-12 h-64 w-64 rounded-full bg-white/10 blur-2xl" />

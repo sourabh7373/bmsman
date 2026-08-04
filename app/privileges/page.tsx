@@ -47,7 +47,7 @@ export default function Privileges() {
       <Sidebar />
       <div className="lg:pl-64 flex flex-col w-full">
         <Topbar />
-        <main className="p-6 lg:p-10 w-full max-w-7xl mx-auto space-y-8">
+        <main className="p-4 lg:p-6 w-full space-y-6">
           {/* Header Section */}
           <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-600 via-purple-600 to-blue-700 p-8 shadow-xl">
             <div className="absolute -right-12 -top-12 h-64 w-64 rounded-full bg-white/10 blur-2xl" />
@@ -108,45 +108,45 @@ export default function Privileges() {
               />
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-sm min-w-[600px]">
+                <table className="w-full text-sm border-collapse">
                   <thead>
-                    <tr className="border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50">
-                      <th className="p-5 text-left font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wider text-xs">Name</th>
-                      <th className="p-5 text-left font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wider text-xs">Type</th>
-                      <th className="p-5 text-right font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wider text-xs">Actions</th>
+                    <tr className="border-b border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50">
+                      <th className="px-6 py-4 text-left font-semibold text-slate-700 dark:text-slate-200 uppercase tracking-wider text-xs">Name</th>
+                      <th className="px-6 py-4 text-left font-semibold text-slate-700 dark:text-slate-200 uppercase tracking-wider text-xs">Type</th>
+                      <th className="px-6 py-4 text-right font-semibold text-slate-700 dark:text-slate-200 uppercase tracking-wider text-xs">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-50 dark:divide-slate-800/50">
+                  <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                     {privileges
                       .filter((p) => p?.id && p?.privilege?.trim())
                       .map((priv) => {
                         const badge = getTypeBadge(priv.privilegeType);
                         return (
-                          <tr key={priv.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors group">
-                            <td className="p-5">
+                          <tr key={priv.id} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/50 transition-colors group">
+                            <td className="px-6 py-4">
                               <div className="flex items-center gap-3">
-                                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-950 dark:to-purple-950 text-indigo-700 dark:text-indigo-300 shadow-sm">
+                                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-900/50">
                                   <ShieldCheck size={18} />
                                 </div>
-                                <span className="font-semibold text-slate-900 dark:text-white">{priv.privilege}</span>
+                                <span className="font-medium text-slate-900 dark:text-white">{priv.privilege}</span>
                               </div>
                             </td>
-                            <td className="p-5">
-                              <span className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold border ${badge.classes}`}>
+                            <td className="px-6 py-4">
+                              <span className={`inline-flex items-center rounded-lg px-3 py-1 text-xs font-medium border ${badge.classes}`}>
                                 {badge.label}
                               </span>
                             </td>
-                            <td className="p-5 text-right">
-                              <div className="flex items-center justify-end gap-2 opacity-80 group-hover:opacity-100 transition-opacity">
+                            <td className="px-6 py-4 text-right">
+                              <div className="flex items-center justify-end gap-2">
                                 <Link href={`/privileges/${priv.id}/view`}>
-                                  <span className="inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-semibold px-4 py-2 rounded-xl hover:bg-indigo-50 dark:hover:bg-indigo-950/50 transition-all text-xs">
-                                    <Eye size={16} />
+                                  <span className="inline-flex items-center gap-1.5 text-indigo-600 dark:text-indigo-400 font-medium px-3 py-1.5 rounded-lg border border-indigo-200 dark:border-indigo-800 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 transition-all text-xs">
+                                    <Eye size={14} />
                                     View
                                   </span>
                                 </Link>
                                 <Link href={`/privileges/edit/${priv.id}`}>
-                                  <span className="inline-flex items-center gap-2 text-slate-600 dark:text-slate-400 font-semibold px-4 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all text-xs">
-                                    <Pencil size={16} />
+                                  <span className="inline-flex items-center gap-1.5 text-slate-600 dark:text-slate-400 font-medium px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all text-xs">
+                                    <Pencil size={14} />
                                     Edit
                                   </span>
                                 </Link>
